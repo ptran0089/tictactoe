@@ -1,4 +1,6 @@
 class Tictactoe
+  attr_reader :turns
+
   def initialize
     @board = Array.new(9, " ") 
     @turns = 9
@@ -19,11 +21,11 @@ class Tictactoe
   end
 
   def display_board
-    puts "#{@board[0]} | #{@board[1]} | #{@board[2]}"
-    puts "---------"
-    puts "#{@board[3]} | #{@board[4]} | #{@board[5]}"
-    puts "---------"
-    puts "#{@board[6]} | #{@board[7]} | #{@board[8]}\n\n\n"
+    puts "\n\n\n\n     #{@board[0]} | #{@board[1]} | #{@board[2]}
+     ---------
+     #{@board[3]} | #{@board[4]} | #{@board[5]}
+     ---------
+     #{@board[6]} | #{@board[7]} | #{@board[8]}\n\n\n\n".green
   end
 
   def play_turn(pos)
@@ -31,8 +33,8 @@ class Tictactoe
       make_move(pos)
       @turns -= 1
     else
-      puts "\ninvalid move, pick again"
       display_board
+      puts "\ninvalid move, pick again".red
     end
   end
 
@@ -56,16 +58,16 @@ class Tictactoe
   end
 
   def game_over?
-    @player_1.win? || @player_2.win? || @turns == 0 
+    @player_1.win? || @player_2.win? || @turns == 0
   end
 
   def display_winner
     if @player_1.win?
-      puts "Player 1 won"
+      puts "Player 1 won!".upcase.pink
     elsif @player_2.win?
-      puts "Player 2 won"
+      puts "Player 2 won!".upcase.light_blue
     else
-      puts "It's a draw"
+      puts "It's a draw!".upcase.yellow
     end
   end
 end
@@ -87,10 +89,39 @@ class Player
   end
 end
 
+class String
+  # colorization
+  def colorize(color_code)
+    "\e[#{color_code}m#{self}\e[0m"
+  end
+
+  def red
+    colorize(31)
+  end
+
+  def pink
+    colorize(35)
+  end
+
+  def green
+    colorize(32)
+  end
+
+  def yellow
+    colorize(33)
+  end
+
+  def light_blue
+    colorize(36)
+  end
+end
+
 
 game = Tictactoe.new
 
 until game.game_over?
+  player = game.turns.odd? ? "Player 1" : "Player 2"
+  puts "#{player} turn".green
   puts "Pick a position for your move (1-9)"
   move = gets.chomp.to_i
   game.play_turn(move)
