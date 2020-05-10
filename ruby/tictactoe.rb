@@ -1,9 +1,6 @@
-
-
 class Tictactoe
   def initialize
-    create_board
-    display_board
+    @board = Array.new(9, " ") 
     @turns = 9
     @player_1 = Player.new("X")
     @player_2 = Player.new("O") 
@@ -18,10 +15,7 @@ class Tictactoe
       8 => ["r3", "c2"],
       9 => ["r3", "c3", "d1"]
     }
-  end
-
-  def create_board
-    @board = Array.new(9, " ") 
+    display_board
   end
 
   def display_board
@@ -103,7 +97,3 @@ until game.game_over?
 end
 
 game.display_winner
-
-
-# 6, 15, 24
-# 12, 15, 18
